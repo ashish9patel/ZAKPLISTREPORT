@@ -1,0 +1,30 @@
+@Metadata.layer: #CORE
+annotate view ZC_AKP_PurchaseItems with
+{
+  @UI.lineItem: [{ position: 10, importance: #HIGH, type: #STANDARD, label: 'Pur. Doc' }]
+  PurchaseDoc;
+  @UI.lineItem: [{ position: 20, importance: #HIGH, type: #STANDARD, label: 'Pur. Item' }]
+  PurchaseItem;
+  @UI.lineItem: [{ position: 30, importance: #HIGH, type: #STANDARD, label: 'Text' }]
+  ShortText;
+  @UI.lineItem: [{ position: 40, importance: #HIGH, type: #STANDARD, label: 'Price' }]
+  Price;
+  @UI.lineItem: [{ position: 50, importance: #HIGH, type: #STANDARD, label: 'Currency' }]
+  @UI.hidden: true
+  Currency;
+  @UI.lineItem: [{ position: 60, importance: #HIGH, type: #STANDARD, label: 'Quantity' }]
+  Quantity;
+  @UI.lineItem: [{ position: 70, importance: #HIGH, type: #STANDARD, label: 'Unit' }]
+  Unit;
+  @UI.lineItem: [{ position: 80, importance: #HIGH, type: #STANDARD, label: 'Total price' }]
+  TotalPrice;
+  @UI.lineItem: [{ position: 90, importance: #LOW, type: #STANDARD, label: 'Changed On' }]
+  ChangeDateTime;
+  
+  
+//  /* Associations */
+//  _Currency;
+//  _PurchaseHeader;
+//  _UOM;
+
+}

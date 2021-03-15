@@ -1,0 +1,139 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: {
+    typeName: 'Purchase Doc',
+    typeNamePlural: 'Purchase Documents',
+    title: {
+        type: #STANDARD,
+//        label: 'Title label'    ??
+        value: 'PurchaseDoc'          //taking from element list
+//        valueQualifier: '',     ??
+//        targetElement: '',      ??
+//        url: ''
+    },
+    description: {
+        type: #STANDARD,
+//        label: 'Desc Label',   ??
+        value: 'PoDesc'                //taking from element list
+    }
+}
+annotate view ZC_AKP_PurchaseReport with
+{
+
+  @UI.facet: [{
+
+      id: 'StatusID',
+      purpose: #HEADER,
+  //      label: 'Facet Label',   //doesn't seem to be applicable if purpose is #HEADER
+      type: #DATAPOINT_REFERENCE,
+      targetQualifier: 'DPR_Status'
+  //      targetQualifier: 'PoStatus'
+    },
+    {
+      id: 'PrioID',
+      purpose: #HEADER,
+      type: #DATAPOINT_REFERENCE,
+      targetQualifier: 'DPR_Prio'
+
+    },
+    {
+      id: 'TotalPriceID',
+      purpose: #HEADER,
+      type: #DATAPOINT_REFERENCE,
+      targetQualifier: 'DPR_TotPrice'
+
+    },
+    //Parent collection facet
+    {
+        id: 'PurchaseCollectionID',
+        type: #COLLECTION,
+        label: 'collection facet label: Purchase Details',
+        purpose:#STANDARD
+
+    },
+    //Section1: Purchase Info
+    {
+        id: 'PurInfoID',
+        type: #FIELDGROUP_REFERENCE,
+        parentId: 'PurchaseCollectionID',
+        label: 'FGR label: Purchase Info',
+        targetQualifier: 'FG_PurInfo'
+
+    },
+    //Section2: Admind data
+    {
+        id: 'AdminDataID',
+        type: #FIELDGROUP_REFERENCE,
+        parentId: 'PurchaseCollectionID',
+        label: 'FGR label: Admin Data',
+        targetQualifier: 'FG_AdminData'
+
+    },
+
+    //Item Data
+    { 
+    id:'PurItemsID',
+    type: #LINEITEM_REFERENCE,
+    purpose: #STANDARD,
+    label: 'Purchase Items',
+    targetElement: '_PurchaseItems'
+    }
+
+
+  ]
+
+  @UI.lineItem: [{ position: 10, importance: #HIGH, type: #STANDARD, label: 'Purchase Doc.' }]
+  @UI.selectionField: [{ position: 510 }]
+  @UI.fieldGroup: [{ qualifier: 'FG_PurInfo', position: 10, type: #STANDARD, label: 'Purchase document'  }]
+  PurchaseDoc;
+  @UI.lineItem: [{ position: 20, importance: #HIGH, type: #STANDARD, label: 'Tot Price' }]
+  @UI.dataPoint: { qualifier: 'DPR_TotPrice', title: 'Tot. Price' }  //title acts like label here
+  @UI.fieldGroup: [{ qualifier: 'FG_PurInfo', position: 20, type: #STANDARD, label: 'Tot. Price'  }]
+  ItemTotalPrice;
+  //@UI.lineItem: [{ position: 30, importance: #HIGH, type: #STANDARD, label: 'Currency' }].
+  @UI.hidden: true
+  Currency;
+  @UI.lineItem: [{ position: 40, importance: #HIGH, type: #STANDARD, label: 'Description' }]
+  PoDesc;
+
+  @UI.lineItem: [{ position: 50, importance: #HIGH, type: #STANDARD, label: 'Status' }]  //importance is for responsive design ,which field to be prioritized
+  @UI.selectionField: [{ position: 520 }]
+  @UI.dataPoint: { qualifier: 'DPR_Status', title: 'Statu' }  //title acts like label here
+  @UI.fieldGroup: [{ qualifier: 'FG_PurInfo', position: 30, type: #STANDARD, label: 'Purchase Status'  }]
+  PoStatus;
+
+
+  @UI.dataPoint: { qualifier: 'DPR_Prio', title: 'Prio..' }  //title acts like label here
+  @UI.selectionField: [{ position: 530 }]
+  @UI.lineItem: [{ position: 60, importance: #HIGH, type: #STANDARD, label: 'Priority' }]
+  PoPriority;
+
+  @UI.selectionField: [{ position: 540 }]
+  @UI.lineItem: [{ position: 70, importance: #HIGH, type: #STANDARD, label: 'Company Code' }]
+  Ccode;
+  @UI.lineItem: [{ position: 80, importance: #LOW, type: #STANDARD, label: 'Created By' }]
+  @UI.fieldGroup: [{ qualifier: 'FG_AdminData', position: 10, type: #STANDARD, label: 'Created By'  }]
+
+  CreateBy;
+  @UI.lineItem: [{ position: 90, importance: #LOW, type: #STANDARD, label: 'Created On' }]
+  @UI.fieldGroup: [{ qualifier: 'FG_AdminData', position: 20, type: #STANDARD, label: 'Created on'  }]
+  CreatedDateTime;
+  @UI.lineItem: [{ position: 100, importance: #LOW, type: #STANDARD, label: 'Changed On' }]
+  @UI.fieldGroup: [{ qualifier: 'FG_AdminData', position: 30, type: #STANDARD, label: 'Changed on'  }]
+  ChangedDateTime;
+  //    /* Associations */
+  //    _PurchaseItems;
+  //      _PurchasePriority;
+  //    _PurchaseStatus;
+
+}
+
+//UI labeling annotations, such as @UI.lineItem: [ { label: '' } ], overwrite any @EndUserText labeling annotations on the UI.
+// However, they are not manifested in the OData service metadata.
+
+
+//However, there is one use case where EndUserText labels are necessary to ensure coherence on the UI.
+// Whereas @UI.listItem and @UI.identification offer the option to directly label list items and object page items with UI annotations,
+//  the @UI.selectionField annotation lacks this option. The selection field label is therefore retrieved from the database label,
+//   and might not match the label we have given to the list item and the identification.
+//In this case, it is useful to apply the @EndUserText annotations to those elements that represent selection fields to provide consistency.

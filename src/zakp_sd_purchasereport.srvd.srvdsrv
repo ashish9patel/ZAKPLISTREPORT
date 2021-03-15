@@ -1,0 +1,10 @@
+@EndUserText.label: 'Purchase Report Service definition'
+define service ZAKP_SD_PurchaseReport {
+  expose ZC_AKP_PurchaseReport;
+  expose ZC_AKP_PurchaseItems;
+  expose ZI_AKP_PurchaseDetails;
+  expose ZI_AKP_PurchaseItems;
+  expose ZI_AKP_PurchaseDetailsTotPrice;
+  expose ZI_AKP_POPriority;
+  expose ZI_AKP_POStatus;
+}
